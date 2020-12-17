@@ -1,0 +1,28 @@
+Use from bellow license key:
+
+ComponentInfo.SetLicense("DH5L-ED6Q-R7O0-DY0H");
+or
+ComponentInfo.SetLicense("D02V-J2OJ-ROG9-95DI");
+or
+ComponentInfo.SetLicense("DIOV-SHCO-HDBW-OF89");
+or
+ComponentInfo.SetLicense("DQY3-1CZB-5PMQ-PHYG");
+or
+ComponentInfo.SetLicense("DJ75-7UM8-D88Y-N9PN");
+
+
+in ASP.Net Projects you must disable shadow copy
+To disable shadow copy add following setting in web.config file:
+
+<configuration>
+  ...
+  <system.web>
+    ...
+    <hostingEnvironment shadowCopyBinAssemblies="false" />
+    ...
+  </system.web>
+  ...
+</configuration>
+
+
+www.ShareAppsCrack.com

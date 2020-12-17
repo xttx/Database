@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props" Condition="Exists('packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props')" />
+  <Import Project="packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props" Condition="Exists('packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{081FC742-F650-4D3E-8918-A3C05FA23F35}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Catalog_2016.My.MyApplication</StartupObject>
+    <RootNamespace>Catalog_2016</RootNamespace>
+    <AssemblyName>Catalog 2016</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Catalog 2016.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Catalog 2016.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>c.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Geckofx-Core, Version=60.0.50.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>packages\Geckofx60.32.60.0.50\lib\net45\Geckofx-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Winforms, Version=60.0.50.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>packages\Geckofx60.32.60.0.50\lib\net45\Geckofx-Winforms.dll</HintPath>
+    </Reference>
+    <Reference Include="GemBox.Document, Version=31.0.35.1089, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>3rd party dll\GemBoxDocument27\GemBox.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="NgenR2RTools">
+      <HintPath>packages\Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\NgenR2RTools.dll</HintPath>
+    </Reference>
+    <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>3rd party dll\SevenZipSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Runtime.Serialization" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class01_db.vb" />
+    <Compile Include="Class02_IniFileApi.vb" />
+    <Compile Include="Class03_3D_API_Checker.vb" />
+    <Compile Include="ClassZZ_helpers.vb" />
+    <Compile Include="Form0_Loader.Designer.vb">
+      <DependentUpon>Form0_Loader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form0_Loader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2_fieldAssociations.Designer.vb">
+      <DependentUpon>Form2_fieldAssociations.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form2_fieldAssociations.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3_customListMngr.Designer.vb">
+      <DependentUpon>Form3_customListMngr.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form3_customListMngr.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3_rawDatabaseView.Designer.vb">
+      <DependentUpon>Form3_rawDatabaseView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form3_rawDatabaseView.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form4_statusTable.Designer.vb">
+      <DependentUpon>Form4_statusTable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form4_statusTable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form5_statusTableSettings.Designer.vb">
+      <DependentUpon>Form5_statusTableSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form5_statusTableSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6_Scanner_Details2.Designer.vb">
+      <DependentUpon>Form6_Scanner_Details2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form6_Scanner_Details2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form8_pathsCheck.Designer.vb">
+      <DependentUpon>Form8_pathsCheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form8_pathsCheck.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form9_ImportCustoms.Designer.vb">
+      <DependentUpon>Form9_ImportCustoms.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form9_ImportCustoms.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormA_CategoryEditor.Designer.vb">
+      <DependentUpon>FormA_CategoryEditor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormA_CategoryEditor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormA_MaintenanceDB.Designer.vb">
+      <DependentUpon>FormA_MaintenanceDB.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormA_MaintenanceDB.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormA_MaintenanceDB_AskOverwrite.Designer.vb">
+      <DependentUpon>FormA_MaintenanceDB_AskOverwrite.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormA_MaintenanceDB_AskOverwrite.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormB_ImportContent.Designer.vb">
+      <DependentUpon>FormB_ImportContent.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormB_ImportContent.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormC_ImportScreenshots.Designer.vb">
+      <DependentUpon>FormC_ImportScreenshots.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormC_ImportScreenshots.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormD_ConvertColumn.Designer.vb">
+      <DependentUpon>FormD_ConvertColumn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormD_ConvertColumn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormE_Grabber.Designer.vb">
+      <DependentUpon>FormE_Grabber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormE_Grabber.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormF_FailedTrimmedEntries.Designer.vb">
+      <DependentUpon>FormF_FailedTrimmedEntries.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormF_FailedTrimmedEntries.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Games_ExodosDosboxConfig.designer.vb">
+      <DependentUpon>Games_ExodosDosboxConfig.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Games_ExodosDosboxConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6_Scanner_Details.Designer.vb">
+      <DependentUpon>Form6_Scanner_Details.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form6_Scanner_Details.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6_Scanner_games.designer.vb">
+      <DependentUpon>Form6_Scanner_games.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form6_Scanner_games.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6_Scanner_daz.Designer.vb">
+      <DependentUpon>Form6_Scanner_daz.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form6_Scanner_daz.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6_Scanner_unity.designer.vb">
+      <DependentUpon>Form6_Scanner_unity.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form6_Scanner_unity.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form7_Options.Designer.vb">
+      <DependentUpon>Form7_Options.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form7_Options.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form7_OptionsGroupping.Designer.vb">
+      <DependentUpon>Form7_OptionsGroupping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form7_OptionsGroupping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form8_paths.Designer.vb">
+      <DependentUpon>Form8_paths.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form8_paths.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form9_ExportCustoms.Designer.vb">
+      <DependentUpon>Form9_ExportCustoms.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form9_ExportCustoms.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Games_ExodosDosboxSingle.Designer.vb">
+      <DependentUpon>Games_ExodosDosboxSingle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Games_ExodosDosboxSingle.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JSON_Utils.vb" />
+    <Compile Include="Module1.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form0_Loader.resx">
+      <DependentUpon>Form0_Loader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2_fieldAssociations.resx">
+      <DependentUpon>Form2_fieldAssociations.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3_customListMngr.resx">
+      <DependentUpon>Form3_customListMngr.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3_rawDatabaseView.resx">
+      <DependentUpon>Form3_rawDatabaseView.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form4_statusTable.resx">
+      <DependentUpon>Form4_statusTable.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form5_statusTableSettings.resx">
+      <DependentUpon>Form5_statusTableSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6_Scanner_Details2.resx">
+      <DependentUpon>Form6_Scanner_Details2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form8_pathsCheck.resx">
+      <DependentUpon>Form8_pathsCheck.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form9_ImportCustoms.resx">
+      <DependentUpon>Form9_ImportCustoms.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormA_CategoryEditor.resx">
+      <DependentUpon>FormA_CategoryEditor.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormA_MaintenanceDB.resx">
+      <DependentUpon>FormA_MaintenanceDB.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormA_MaintenanceDB_AskOverwrite.resx">
+      <DependentUpon>FormA_MaintenanceDB_AskOverwrite.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormB_ImportContent.resx">
+      <DependentUpon>FormB_ImportContent.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormC_ImportScreenshots.resx">
+      <DependentUpon>FormC_ImportScreenshots.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormD_ConvertColumn.resx">
+      <DependentUpon>FormD_ConvertColumn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormE_Grabber.resx">
+      <DependentUpon>FormE_Grabber.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormF_FailedTrimmedEntries.resx">
+      <DependentUpon>FormF_FailedTrimmedEntries.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Games_ExodosDosboxConfig.resx">
+      <DependentUpon>Games_ExodosDosboxConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6_Scanner_Details.resx">
+      <DependentUpon>Form6_Scanner_Details.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6_Scanner_games.resx">
+      <DependentUpon>Form6_Scanner_games.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6_Scanner_daz.resx">
+      <DependentUpon>Form6_Scanner_daz.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6_Scanner_unity.resx">
+      <DependentUpon>Form6_Scanner_unity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form7_Options.resx">
+      <DependentUpon>Form7_Options.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form7_OptionsGroupping.resx">
+      <DependentUpon>Form7_OptionsGroupping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form8_paths.resx">
+      <DependentUpon>Form8_paths.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form9_ExportCustoms.resx">
+      <DependentUpon>Form9_ExportCustoms.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Games_ExodosDosboxSingle.resx">
+      <DependentUpon>Games_ExodosDosboxSingle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Firefox\omni.ja" />
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="c.ico" />
+    <Content Include="Firefox\AccessibleHandler.dll" />
+    <Content Include="Firefox\AccessibleMarshal.dll" />
+    <Content Include="Firefox\breakpadinjector.dll" />
+    <Content Include="Firefox\d3dcompiler_47.dll" />
+    <Content Include="Firefox\freebl3.dll" />
+    <Content Include="Firefox\IA2Marshal.dll" />
+    <Content Include="Firefox\lgpllibs.dll" />
+    <Content Include="Firefox\libEGL.dll" />
+    <Content Include="Firefox\libGLESv2.dll" />
+    <Content Include="Firefox\mozavcodec.dll" />
+    <Content Include="Firefox\mozavutil.dll" />
+    <Content Include="Firefox\mozglue.dll" />
+    <Content Include="Firefox\nss3.dll" />
+    <Content Include="Firefox\nssckbi.dll" />
+    <Content Include="Firefox\nssdbm3.dll" />
+    <Content Include="Firefox\plugin-container.exe" />
+    <Content Include="Firefox\plugin-hang-ui.exe" />
+    <Content Include="Firefox\qipcap.dll" />
+    <Content Include="Firefox\softokn3.dll" />
+    <Content Include="Firefox\xul.dll" />
+    <None Include="Images\no-image-found-80x45.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="3rd party dll\VirtualListBox\VirtualListBox.csproj">
+      <Project>{f8d7eb6b-7878-487f-98b6-64ed7dbfe279}</Project>
+      <Name>VirtualListBox</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\runtime.win10-x64.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x64.microsoft.dotnet.framework.nativeimagecompiler.props'))" />
+    <Error Condition="!Exists('packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\runtime.win10-x86.Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\runtime.win10-x86.microsoft.dotnet.framework.nativeimagecompiler.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets'))" />
+    <Error Condition="!Exists('packages\Geckofx60.32.60.0.50\build\Geckofx60.32.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Geckofx60.32.60.0.50\build\Geckofx60.32.targets'))" />
+  </Target>
+  <Import Project="packages\Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets" Condition="Exists('packages\Microsoft.DotNet.Framework.NativeImageCompiler.1.0.0\build\net462\Microsoft.DotNet.Framework.NativeImageCompiler.targets')" />
+  <Import Project="packages\Geckofx60.32.60.0.50\build\Geckofx60.32.targets" Condition="Exists('packages\Geckofx60.32.60.0.50\build\Geckofx60.32.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
