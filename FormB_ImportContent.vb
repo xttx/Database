@@ -167,6 +167,8 @@ Public Class FormB_ImportContent
 
 		'Main Mode
 		ComboBox5.SelectedIndex = 0
+		'Category Mode
+		ComboBox7.SelectedIndex = 1
 		'Log level
 		ComboBox6.SelectedIndex = 0
 
@@ -485,6 +487,7 @@ Public Class FormB_ImportContent
 			If opts.Count > 9 Then fi.match_secondary_zero = Integer.Parse(opts(9))
 			If opts.Count > 10 Then fi.match_secondary_multiple = Integer.Parse(opts(10))
 			If opts.Count > 11 Then ComboBox5.SelectedIndex = Integer.Parse(opts(11)) Else ComboBox5.SelectedIndex = 0
+			If opts.Count > 12 Then ComboBox7.SelectedIndex = Integer.Parse(opts(12)) Else ComboBox7.SelectedIndex = 1
 			If opts(2).Trim <> "" Then fi.field_association = opts(2).Split({";"}, StringSplitOptions.None) 'Get FileInfo -> Fields Associations
 
 			Dim sub_split = opts(3).Split({";"}, StringSplitOptions.None) 'Get FileInfo -> Fields Options
@@ -652,6 +655,7 @@ Public Class FormB_ImportContent
 			str += "|" + fi.use_separator.ToString() + "|" + fi.fixed_width.ToString() + "|" + String.Join("@", fi.field_splits)
 			str += "|" + fi.match_primary_multiple.ToString() + "|" + fi.match_secondary_zero.ToString() + "|" + fi.match_secondary_multiple.ToString()
 			str += "|" + ComboBox5.SelectedIndex.ToString()
+			str += "|" + ComboBox7.SelectedIndex.ToString()
 
 			option_list.Add(str)
 		Next
@@ -955,9 +959,9 @@ Public Class FormB_ImportContent
 						'The field is in Match Mode
 						If fi.field_options.ContainsKey(fieldN) AndAlso fi.field_options(fieldN).match_mode > 0 Then
 							Dim preprocess = str(fieldN)
-							If fi.field_options(n).match_replace(0) <> "" Then preprocess = Replace(preprocess, fi.field_options(n).match_replace(0), fi.field_options(n).match_replace_with(0), 1, -1, CompareMethod.Text)
-							If fi.field_options(n).match_replace(1) <> "" Then preprocess = Replace(preprocess, fi.field_options(n).match_replace(1), fi.field_options(n).match_replace_with(1), 1, -1, CompareMethod.Text)
-							If fi.field_options(n).match_replace(2) <> "" Then preprocess = Replace(preprocess, fi.field_options(n).match_replace(2), fi.field_options(n).match_replace_with(2), 1, -1, CompareMethod.Text)
+							If fi.field_options(fieldN).match_replace(0) <> "" Then preprocess = Replace(preprocess, fi.field_options(fieldN).match_replace(0), fi.field_options(fieldN).match_replace_with(0), 1, -1, CompareMethod.Text)
+							If fi.field_options(fieldN).match_replace(1) <> "" Then preprocess = Replace(preprocess, fi.field_options(fieldN).match_replace(1), fi.field_options(fieldN).match_replace_with(1), 1, -1, CompareMethod.Text)
+							If fi.field_options(fieldN).match_replace(2) <> "" Then preprocess = Replace(preprocess, fi.field_options(fieldN).match_replace(2), fi.field_options(fieldN).match_replace_with(2), 1, -1, CompareMethod.Text)
 
 							'Primary Match
 							Dim q = f + " = " + preprocess
@@ -1023,7 +1027,7 @@ Public Class FormB_ImportContent
 						If success AndAlso cat <> "" Then
 							Dim lastRow = db.getLastRowID
 							sql = "INSERT INTO category (id_main, cat) VALUES (" + lastRow.ToString + ", '" + cat + "');"
-							If Button5_Click_BG_QueryDB_And_Log(sql, "Category: " + cat) Then count_added_category += 1
+							If Button5_Click_BG_QueryDB_And_Log(sql, "Category (for new product): " + cat) Then count_added_category += 1
 						End If
 					Else
 						'Update existing entry
@@ -1036,12 +1040,29 @@ Public Class FormB_ImportContent
 						If success Then count_updated += 1 Else count_skipped += 1
 
 						'Update category
-						If success AndAlso cat <> "" Then
-							sql = "SELECT count(id) FROM category WHERE id_main = " + matches.id.ToString() + " AND cat = '" + cat + "'"
-							Dim reader = db.queryReader(sql) : reader.Read()
-							If reader.GetInt32(0) = 0 Then
+						If cat <> "" Then
+							Dim replace As Boolean = Me.Invoke(Function() ComboBox7.SelectedIndex = 2)
+							If replace Then
+								db.execute("DELETE FROM category WHERE id_main = " + matches.id.ToString())
 								sql = "INSERT INTO category (id_main, cat) VALUES (" + matches.id.ToString() + ", '" + cat + "');"
-								If Button5_Click_BG_QueryDB_And_Log(sql, "Category: " + cat) Then count_added_category += 1
+								If Button5_Click_BG_QueryDB_And_Log(sql, "Category (for existing product): " + cat) Then count_added_category += 1
+							Else
+								sql = "SELECT count(id) FROM category WHERE id_main = " + matches.id.ToString() + " AND cat = '" + cat + "' COLLATE NOCASE"
+								Dim reader = db.queryReader(sql) : reader.Read()
+								If reader.GetInt32(0) = 0 Then
+									Dim add_only_if_null As Boolean = Me.Invoke(Function() ComboBox7.SelectedIndex = 1)
+									If add_only_if_null Then
+										sql = "SELECT count(id) FROM category WHERE id_main = " + matches.id.ToString()
+										Dim reader2 = db.queryReader(sql) : reader2.Read()
+										If reader2.GetInt32(0) = 0 Then
+											sql = "INSERT INTO category (id_main, cat) VALUES (" + matches.id.ToString() + ", '" + cat + "');"
+											If Button5_Click_BG_QueryDB_And_Log(sql, "Category (for existing product): " + cat) Then count_added_category += 1
+										End If
+									Else
+										sql = "INSERT INTO category (id_main, cat) VALUES (" + matches.id.ToString() + ", '" + cat + "');"
+										If Button5_Click_BG_QueryDB_And_Log(sql, "Category (for existing product): " + cat) Then count_added_category += 1
+									End If
+								End If
 							End If
 						End If
 					End If
@@ -1209,12 +1230,31 @@ Public Class FormB_ImportContent
 	End Function
 	Private Function Button5_Click_BG_QueryDB_And_Log(sql As String, product_name As String) As Boolean
 		If sql.ToUpper().StartsWith("INSERT") Then
-			Dim main_mode_can_add As Boolean = Me.Invoke(Function() ComboBox5.SelectedIndex = 0 Or ComboBox5.SelectedIndex = 1)
-			If Not main_mode_can_add Then
-				Log_Message("1", "1", "Skip    - " + product_name + " because main mode is not allow to ADD NEW entries")
-				Return False
+			If Not product_name.ToUpper.StartsWith("CATEGORY (FOR") Then
+				Dim main_mode_can_add As Boolean = Me.Invoke(Function() ComboBox5.SelectedIndex = 0 Or ComboBox5.SelectedIndex = 1)
+				If Not main_mode_can_add Then
+					Log_Message("1", "1", "Skip    - " + product_name + " because main mode is not allow to ADD NEW entries")
+					Return False
+				End If
+				Log_Message("0", "1", "Add New - " + product_name)
+			Else
+				If product_name.ToUpper.StartsWith("CATEGORY (FOR NEW PRODUCT):") Then
+					Dim category_can_add As Boolean = Me.Invoke(Function() ComboBox7.SelectedIndex = 0 Or ComboBox7.SelectedIndex = 1 Or ComboBox7.SelectedIndex = 2)
+					If Not category_can_add Then
+						Log_Message("1", "1", "Skip    - " + product_name + " because category mode is not allow ADD NEW entries")
+						Return False
+					End If
+				ElseIf product_name.ToUpper.StartsWith("CATEGORY (FOR EXISTING PRODUCT):") Then
+					Dim category_can_add As Boolean = Me.Invoke(Function() ComboBox7.SelectedIndex = 0 Or ComboBox7.SelectedIndex = 1 Or ComboBox7.SelectedIndex = 2)
+					If Not category_can_add Then
+						Log_Message("1", "1", "Skip    - " + product_name + " because category mode is not allow UPDATE existing entries")
+						Return False
+					End If
+				Else
+					Return False
+				End If
+				Log_Message("0", "1", "Add New - " + product_name)
 			End If
-			Log_Message("0", "1", "Add New - " + product_name)
 		ElseIf sql.ToUpper().StartsWith("UPDATE") Then
 			Dim main_mode_can_update As Boolean = Me.Invoke(Function() ComboBox5.SelectedIndex = 0 Or ComboBox5.SelectedIndex = 2)
 			If Not main_mode_can_update Then

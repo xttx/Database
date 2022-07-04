@@ -32,6 +32,8 @@ Public Class Games_ExodosDosboxSingle
     End Sub
 
     Private Sub Games_ExodosDosboxSingle_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'Custom_ToolTip.Setup(CheckBox11, "Dosbox ECE builds", Me)
+
         refr = True
         Dim dir = IO.Path.GetDirectoryName(conf)
         Dim dir_dosbox = dir + "\..\..\..\dosbox"

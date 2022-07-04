@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports System.Security.Permissions
 Imports Gecko
 Imports Gecko.WebIDL
@@ -52,6 +53,11 @@ Public Module Module1
             txt
         End Enum
     End Class
+
+    'Windows API
+    <DllImport("user32.dll", CharSet:=CharSet.Auto)>
+    Public Function SendMessage(ByVal hWnd As IntPtr, ByVal Msg As UInteger, ByVal wParam As UIntPtr, ByRef lParam As IntPtr) As IntPtr
+    End Function
 
     Sub log(message As String, Optional modul As String = "", Optional file As String = "")
         If String.IsNullOrWhiteSpace(file) Then file = LOG_FILE_PATH
@@ -459,4 +465,97 @@ Public Class MsgBox_Custom
         f.SpawnForm(text, buttons, title, check_text)
         Return f.res
     End Function
+End Class
+
+'DoubleBuffered and faster controls
+Public Class GroupBoxEx
+    Inherits GroupBox
+
+    Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.UserPaint, True)
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+    End Sub
+
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000 'WS_CLIPCHILDREN
+            Return cp
+        End Get
+    End Property
+End Class
+Public Class TabControlEx
+    Inherits TabControl
+
+    Public Sub New()
+        Me.DoubleBuffered = True
+        'Me.SetStyle(ControlStyles.UserPaint, True) '--- this prevent the title of tabpage to show
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+    End Sub
+
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000 'WS_CLIPCHILDREN
+            Return cp
+        End Get
+    End Property
+End Class
+Public Class TabPageEx
+    Inherits TabPage
+
+    Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.UserPaint, True)
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+    End Sub
+
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000 'WS_CLIPCHILDREN
+            Return cp
+        End Get
+    End Property
+End Class
+Public Class DataGridViewEx
+    Inherits DataGridView
+
+    Public Sub New()
+        Me.DoubleBuffered = True
+        Me.SetStyle(ControlStyles.UserPaint, True)
+        Me.SetStyle(ControlStyles.AllPaintingInWmPaint, True)
+        Me.SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
+    End Sub
+
+    Protected Overrides ReadOnly Property CreateParams As CreateParams
+        Get
+            Dim cp = MyBase.CreateParams
+            cp.ExStyle = cp.ExStyle Or &H2000000 'WS_CLIPCHILDREN
+            Return cp
+        End Get
+    End Property
+
+    'Source of datagridview column header - https://referencesource.microsoft.com/#system.windows.forms/winforms/managed/system/winforms/DataGridViewColumnHeaderCell.cs
+    'Protected Overrides Sub OnColumnAdded(e As DataGridViewColumnEventArgs)
+    '    e.Column.HeaderCell = New DataGridViewHeaderCellEx()
+    '    MyBase.OnColumnAdded(e)
+    'End Sub
+
+    'Class DataGridViewHeaderCellEx
+    '    Inherits DataGridViewColumnHeaderCell
+    '    Protected Overrides Sub Paint(graphics As Graphics, clipBounds As Rectangle, cellBounds As Rectangle, rowIndex As Integer, dataGridViewElementState As DataGridViewElementStates, value As Object, formattedValue As Object, errorText As String, cellStyle As DataGridViewCellStyle, advancedBorderStyle As DataGridViewAdvancedBorderStyle, paintParts As DataGridViewPaintParts)
+    '        Dim old_selected As Boolean? = Nothing
+    '        If DataGridView.CurrentCell IsNot Nothing Then
+    '            old_selected = DataGridView.CurrentCell.Selected
+    '            DataGridView.CurrentCell.Selected = False
+    '        End If
+    '        MyBase.Paint(graphics, clipBounds, cellBounds, rowIndex, dataGridViewElementState, value, formattedValue, errorText, cellStyle, advancedBorderStyle, paintParts)
+    '        If old_selected IsNot Nothing Then DataGridView.CurrentCell.Selected = old_selected
+    '    End Sub
+    'End Class
 End Class

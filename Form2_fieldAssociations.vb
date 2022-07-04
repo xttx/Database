@@ -12,7 +12,7 @@ Public Class Form2_fieldAssociations
         Custom_ToolTip.Setup(Label1, msg, Me) : Custom_ToolTip.Setup(TextBox1, msg, Me)         'Field Name
         msg = "Allow change value of this field in the main form (i.e. make field editable)." + vbCrLf + "Bool fields became checkboxes, String fields - textboxes." + vbCrLf + "String fields with list values become dropdowns, optionally with multiple choices."
         Custom_ToolTip.Setup(CheckBox1, msg, Me)                                                'Writable
-        msg = "With writeable string fields theese values will be shown in dropdown menu, to choose from."
+        msg = "With writeable string fields theese values will be shown in dropdown menu, to choose from." + vbCrLf + "The values should be separated by "";"""
         Custom_ToolTip.Setup(Label2, msg, Me) : Custom_ToolTip.Setup(TextBox2, msg, Me)         'List Values
         msg = "With writable string fields with list values, this will allow to choose multiple values," + vbCrLf + "wich will be stored in database separated by ';'."
         Custom_ToolTip.Setup(CheckBox5, msg, Me)                                                'List Values - Multiple
@@ -24,7 +24,7 @@ Public Class Form2_fieldAssociations
         Custom_ToolTip.Setup(CheckBox4, msg, Me)                                                'Is List
         msg = "For 'Is List' values, this will create cache table in the database, with all distinct splitted values for filter." + vbCrLf + "This can speedup catalog loading time, but when adding a new value to this field, you'll need to recreate this cache, ot new values will not be shown in the filter."
         Custom_ToolTip.Setup(Button4, msg, Me)                                                  'Is List - Create List Cache
-        msg = "Show this value to the right of the same row as previous one, instead of showing it on the next row."
+        msg = "Show next value to the right of this one in the same row, instead of showing it on the next row."
         Custom_ToolTip.Setup(CheckBox6, msg, Me)                                                'Layout - NoBR
         msg = "Add context menu to this field label, to go directly to showing product."
         Custom_ToolTip.Setup(CheckBox7, msg, Me)                                                'Search for Name

@@ -22,8 +22,9 @@ Partial Class FormB_ImportContent
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
-		Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+		Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+		Me.ComboBox7 = New System.Windows.Forms.ComboBox()
 		Me.ComboBox5 = New System.Windows.Forms.ComboBox()
 		Me.Button21 = New System.Windows.Forms.Button()
 		Me.Label42 = New System.Windows.Forms.Label()
@@ -147,6 +148,7 @@ Partial Class FormB_ImportContent
 		Me.Label17 = New System.Windows.Forms.Label()
 		Me.ListBox4 = New System.Windows.Forms.ListBox()
 		Me.TabPage4 = New System.Windows.Forms.TabPage()
+		Me.ComboBox6 = New System.Windows.Forms.ComboBox()
 		Me.GroupBox4 = New System.Windows.Forms.GroupBox()
 		Me.RadioButton19 = New System.Windows.Forms.RadioButton()
 		Me.RadioButton18 = New System.Windows.Forms.RadioButton()
@@ -188,7 +190,6 @@ Partial Class FormB_ImportContent
 		Me.CheckBox4 = New System.Windows.Forms.CheckBox()
 		Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
 		Me.ProgressLabel = New System.Windows.Forms.Label()
-		Me.ComboBox6 = New System.Windows.Forms.ComboBox()
 		Me.GroupBox1.SuspendLayout()
 		CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox2.SuspendLayout()
@@ -211,6 +212,9 @@ Partial Class FormB_ImportContent
 		'
 		'GroupBox1
 		'
+		Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.GroupBox1.Controls.Add(Me.ComboBox7)
 		Me.GroupBox1.Controls.Add(Me.ComboBox5)
 		Me.GroupBox1.Controls.Add(Me.Button21)
 		Me.GroupBox1.Controls.Add(Me.Label42)
@@ -235,19 +239,29 @@ Partial Class FormB_ImportContent
 		Me.GroupBox1.Controls.Add(Me.ListBox1)
 		Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
 		Me.GroupBox1.Name = "GroupBox1"
-		Me.GroupBox1.Size = New System.Drawing.Size(788, 146)
+		Me.GroupBox1.Size = New System.Drawing.Size(860, 146)
 		Me.GroupBox1.TabIndex = 0
 		Me.GroupBox1.TabStop = False
 		Me.GroupBox1.Text = "Files"
+		'
+		'ComboBox7
+		'
+		Me.ComboBox7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.ComboBox7.FormattingEnabled = True
+		Me.ComboBox7.Items.AddRange(New Object() {"Category: Add", "Category: Add only if null (i.e. new)", "Category: Replace completely", "Category: Always Skip"})
+		Me.ComboBox7.Location = New System.Drawing.Point(676, 91)
+		Me.ComboBox7.Name = "ComboBox7"
+		Me.ComboBox7.Size = New System.Drawing.Size(174, 21)
+		Me.ComboBox7.TabIndex = 27
 		'
 		'ComboBox5
 		'
 		Me.ComboBox5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
 		Me.ComboBox5.FormattingEnabled = True
-		Me.ComboBox5.Items.AddRange(New Object() {"Add and Update", "Add new Only", "Update Old Only", "Log Only"})
+		Me.ComboBox5.Items.AddRange(New Object() {"Add and Update", "Add new Only", "Update Old Only", "Always Skip"})
 		Me.ComboBox5.Location = New System.Drawing.Point(676, 66)
 		Me.ComboBox5.Name = "ComboBox5"
-		Me.ComboBox5.Size = New System.Drawing.Size(101, 21)
+		Me.ComboBox5.Size = New System.Drawing.Size(174, 21)
 		Me.ComboBox5.TabIndex = 26
 		'
 		'Button21
@@ -270,9 +284,9 @@ Partial Class FormB_ImportContent
 		'
 		'Button16
 		'
-		Me.Button16.Location = New System.Drawing.Point(675, 91)
+		Me.Button16.Location = New System.Drawing.Point(289, 105)
 		Me.Button16.Name = "Button16"
-		Me.Button16.Size = New System.Drawing.Size(103, 22)
+		Me.Button16.Size = New System.Drawing.Size(121, 22)
 		Me.Button16.TabIndex = 23
 		Me.Button16.Text = "Refresh Preview"
 		Me.Button16.UseVisualStyleBackColor = True
@@ -367,7 +381,7 @@ Partial Class FormB_ImportContent
 		'
 		Me.Button5.Location = New System.Drawing.Point(675, 17)
 		Me.Button5.Name = "Button5"
-		Me.Button5.Size = New System.Drawing.Size(103, 46)
+		Me.Button5.Size = New System.Drawing.Size(176, 46)
 		Me.Button5.TabIndex = 7
 		Me.Button5.Text = "IMPORT"
 		Me.Button5.UseVisualStyleBackColor = True
@@ -445,7 +459,7 @@ Partial Class FormB_ImportContent
 		Me.GroupBox2.Enabled = False
 		Me.GroupBox2.Location = New System.Drawing.Point(12, 164)
 		Me.GroupBox2.Name = "GroupBox2"
-		Me.GroupBox2.Size = New System.Drawing.Size(788, 352)
+		Me.GroupBox2.Size = New System.Drawing.Size(860, 352)
 		Me.GroupBox2.TabIndex = 1
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "File Fields"
@@ -462,7 +476,7 @@ Partial Class FormB_ImportContent
 		Me.TabControl1.Location = New System.Drawing.Point(6, 19)
 		Me.TabControl1.Name = "TabControl1"
 		Me.TabControl1.SelectedIndex = 0
-		Me.TabControl1.Size = New System.Drawing.Size(776, 327)
+		Me.TabControl1.Size = New System.Drawing.Size(848, 327)
 		Me.TabControl1.TabIndex = 0
 		'
 		'TabPage1
@@ -478,7 +492,7 @@ Partial Class FormB_ImportContent
 		Me.TabPage1.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage1.Name = "TabPage1"
 		Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage1.Size = New System.Drawing.Size(768, 301)
+		Me.TabPage1.Size = New System.Drawing.Size(840, 301)
 		Me.TabPage1.TabIndex = 0
 		Me.TabPage1.Text = "Separated Fields Format"
 		Me.TabPage1.UseVisualStyleBackColor = True
@@ -487,7 +501,7 @@ Partial Class FormB_ImportContent
 		'
 		Me.Label27.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.Label27.AutoSize = True
-		Me.Label27.Location = New System.Drawing.Point(697, 17)
+		Me.Label27.Location = New System.Drawing.Point(769, 17)
 		Me.Label27.Name = "Label27"
 		Me.Label27.Size = New System.Drawing.Size(43, 13)
 		Me.Label27.TabIndex = 27
@@ -503,7 +517,7 @@ Partial Class FormB_ImportContent
 		Me.Panel1.Controls.Add(Me.DataGridView2)
 		Me.Panel1.Location = New System.Drawing.Point(20, 112)
 		Me.Panel1.Name = "Panel1"
-		Me.Panel1.Size = New System.Drawing.Size(709, 95)
+		Me.Panel1.Size = New System.Drawing.Size(781, 95)
 		Me.Panel1.TabIndex = 26
 		Me.Panel1.Visible = False
 		'
@@ -539,21 +553,21 @@ Partial Class FormB_ImportContent
 		Me.DataGridView2.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
 		Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
 		Me.DataGridView2.ColumnHeadersVisible = False
-		DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-		DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-		DataGridViewCellStyle2.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-		DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-		DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Transparent
-		DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Transparent
-		DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-		Me.DataGridView2.DefaultCellStyle = DataGridViewCellStyle2
+		DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+		DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
+		DataGridViewCellStyle1.Font = New System.Drawing.Font("Courier New", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+		DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
+		DataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Transparent
+		DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Transparent
+		DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+		Me.DataGridView2.DefaultCellStyle = DataGridViewCellStyle1
 		Me.DataGridView2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
 		Me.DataGridView2.Location = New System.Drawing.Point(15, 15)
 		Me.DataGridView2.MultiSelect = False
 		Me.DataGridView2.Name = "DataGridView2"
 		Me.DataGridView2.RowHeadersVisible = False
 		Me.DataGridView2.ShowCellToolTips = False
-		Me.DataGridView2.Size = New System.Drawing.Size(677, 40)
+		Me.DataGridView2.Size = New System.Drawing.Size(749, 40)
 		Me.DataGridView2.TabIndex = 0
 		'
 		'Button13
@@ -611,7 +625,7 @@ Partial Class FormB_ImportContent
 		Me.DataGridView1.Name = "DataGridView1"
 		Me.DataGridView1.RowHeadersVisible = False
 		Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-		Me.DataGridView1.Size = New System.Drawing.Size(733, 236)
+		Me.DataGridView1.Size = New System.Drawing.Size(805, 236)
 		Me.DataGridView1.TabIndex = 2
 		'
 		'Column1
@@ -745,7 +759,7 @@ Partial Class FormB_ImportContent
 		Me.TabPage2.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage2.Name = "TabPage2"
 		Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-		Me.TabPage2.Size = New System.Drawing.Size(768, 301)
+		Me.TabPage2.Size = New System.Drawing.Size(830, 301)
 		Me.TabPage2.TabIndex = 1
 		Me.TabPage2.Text = "INI Format"
 		Me.TabPage2.UseVisualStyleBackColor = True
@@ -973,7 +987,7 @@ Partial Class FormB_ImportContent
 		Me.TabPage3.Controls.Add(Me.ListBox4)
 		Me.TabPage3.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage3.Name = "TabPage3"
-		Me.TabPage3.Size = New System.Drawing.Size(768, 301)
+		Me.TabPage3.Size = New System.Drawing.Size(830, 301)
 		Me.TabPage3.TabIndex = 2
 		Me.TabPage3.Text = "Field Options"
 		Me.TabPage3.UseVisualStyleBackColor = True
@@ -1385,10 +1399,20 @@ Partial Class FormB_ImportContent
 		Me.TabPage4.Controls.Add(Me.CheckBox4)
 		Me.TabPage4.Location = New System.Drawing.Point(4, 22)
 		Me.TabPage4.Name = "TabPage4"
-		Me.TabPage4.Size = New System.Drawing.Size(768, 301)
+		Me.TabPage4.Size = New System.Drawing.Size(830, 301)
 		Me.TabPage4.TabIndex = 3
 		Me.TabPage4.Text = "Log"
 		Me.TabPage4.UseVisualStyleBackColor = True
+		'
+		'ComboBox6
+		'
+		Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+		Me.ComboBox6.FormattingEnabled = True
+		Me.ComboBox6.Items.AddRange(New Object() {"[Show All]", "Add", "Update", "Successed", "Skipped"})
+		Me.ComboBox6.Location = New System.Drawing.Point(636, 13)
+		Me.ComboBox6.Name = "ComboBox6"
+		Me.ComboBox6.Size = New System.Drawing.Size(122, 21)
+		Me.ComboBox6.TabIndex = 5
 		'
 		'GroupBox4
 		'
@@ -1422,7 +1446,7 @@ Partial Class FormB_ImportContent
 		Me.GroupBox4.Controls.Add(Me.Label29)
 		Me.GroupBox4.Location = New System.Drawing.Point(372, 46)
 		Me.GroupBox4.Name = "GroupBox4"
-		Me.GroupBox4.Size = New System.Drawing.Size(357, 198)
+		Me.GroupBox4.Size = New System.Drawing.Size(419, 198)
 		Me.GroupBox4.TabIndex = 4
 		Me.GroupBox4.TabStop = False
 		Me.GroupBox4.Text = "Field Match Options - Preprocess before query"
@@ -1524,7 +1548,7 @@ Partial Class FormB_ImportContent
 		'Button19
 		'
 		Me.Button19.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.Button19.Location = New System.Drawing.Point(299, 163)
+		Me.Button19.Location = New System.Drawing.Point(361, 163)
 		Me.Button19.Name = "Button19"
 		Me.Button19.Size = New System.Drawing.Size(47, 23)
 		Me.Button19.TabIndex = 13
@@ -1648,7 +1672,7 @@ Partial Class FormB_ImportContent
 		Me.GroupBox3.Controls.Add(Me.Button20)
 		Me.GroupBox3.Location = New System.Drawing.Point(29, 46)
 		Me.GroupBox3.Name = "GroupBox3"
-		Me.GroupBox3.Size = New System.Drawing.Size(349, 224)
+		Me.GroupBox3.Size = New System.Drawing.Size(411, 224)
 		Me.GroupBox3.TabIndex = 3
 		Me.GroupBox3.TabStop = False
 		Me.GroupBox3.Text = "Global Match Options"
@@ -1756,7 +1780,7 @@ Partial Class FormB_ImportContent
 		'Button20
 		'
 		Me.Button20.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-		Me.Button20.Location = New System.Drawing.Point(296, 195)
+		Me.Button20.Location = New System.Drawing.Point(358, 195)
 		Me.Button20.Name = "Button20"
 		Me.Button20.Size = New System.Drawing.Size(47, 23)
 		Me.Button20.TabIndex = 14
@@ -1774,7 +1798,7 @@ Partial Class FormB_ImportContent
 		Me.TextBox16.Name = "TextBox16"
 		Me.TextBox16.ReadOnly = True
 		Me.TextBox16.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-		Me.TextBox16.Size = New System.Drawing.Size(744, 245)
+		Me.TextBox16.Size = New System.Drawing.Size(806, 245)
 		Me.TextBox16.TabIndex = 2
 		Me.TextBox16.WordWrap = False
 		'
@@ -1804,7 +1828,7 @@ Partial Class FormB_ImportContent
 			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.ProgressBar1.Location = New System.Drawing.Point(12, 522)
 		Me.ProgressBar1.Name = "ProgressBar1"
-		Me.ProgressBar1.Size = New System.Drawing.Size(788, 20)
+		Me.ProgressBar1.Size = New System.Drawing.Size(860, 20)
 		Me.ProgressBar1.TabIndex = 2
 		'
 		'ProgressLabel
@@ -1817,21 +1841,11 @@ Partial Class FormB_ImportContent
 		Me.ProgressLabel.TabIndex = 20
 		Me.ProgressLabel.Text = "Idle"
 		'
-		'ComboBox6
-		'
-		Me.ComboBox6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-		Me.ComboBox6.FormattingEnabled = True
-		Me.ComboBox6.Items.AddRange(New Object() {"[Show All]", "Add", "Update", "Successed", "Skipped"})
-		Me.ComboBox6.Location = New System.Drawing.Point(636, 13)
-		Me.ComboBox6.Name = "ComboBox6"
-		Me.ComboBox6.Size = New System.Drawing.Size(122, 21)
-		Me.ComboBox6.TabIndex = 5
-		'
 		'FormB_ImportContent
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-		Me.ClientSize = New System.Drawing.Size(812, 554)
+		Me.ClientSize = New System.Drawing.Size(884, 554)
 		Me.Controls.Add(Me.ProgressLabel)
 		Me.Controls.Add(Me.ProgressBar1)
 		Me.Controls.Add(Me.GroupBox2)
@@ -2039,4 +2053,5 @@ Partial Class FormB_ImportContent
 	Friend WithEvents Label36 As Label
 	Friend WithEvents ComboBox5 As ComboBox
 	Friend WithEvents ComboBox6 As ComboBox
+	Friend WithEvents ComboBox7 As ComboBox
 End Class

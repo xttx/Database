@@ -26,6 +26,7 @@ Public Class FormE_Grabber
 	Dim inst As Object = Nothing
 	Dim method_parse As MethodInfo = Nothing
 	Dim method_navigate_next As MethodInfo = Nothing
+	Dim method_preprocess As MethodInfo = Nothing
 
 	Dim input_urls As New List(Of String)
 	Dim input_urls_current = 0
@@ -46,9 +47,16 @@ Public Class FormE_Grabber
 	Const EM_SETTABSTOPS As Integer = &HCB
 	Declare Function SendMessageA Lib "user32" (ByVal TBHandle As IntPtr, ByVal EM_SETTABSTOPS As Integer, ByVal wParam As Integer, ByRef lParam As Integer) As Boolean
 
+	Dim Code_Parser As New Class50_CodeParser()
+	Dim Dont_Parse As Boolean = False
+
 	Private Sub FormE_Grabber_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		Me.Height += 80
-		SendMessageA(TextBox8.Handle, EM_SETTABSTOPS, 1, 4 * 3)
+		SendMessageA(RichTextBox1.Handle, EM_SETTABSTOPS, 1, 4 * 3)
+		'both left and right margins set to 10 pixels (A) with the last parm: 0x000A000A
+		'SendMessage(RichTextBox1.Handle, &HD3, &H3, &H40004)
+		RichTextBox1_TextChanged(RichTextBox1, New EventArgs)
+
 		TextBox4.DragDrop_Files_Setup()
 		TextBox2.DragDrop_Files_Setup()
 		TextBox7.DragDrop_Files_Setup()
@@ -81,6 +89,8 @@ Public Class FormE_Grabber
 		AddHandler listbox_context_menu_items(0).Click, Sub() listbox_context_menu_items(0).Checked = Not listbox_context_menu_items(0).Checked
 		ListBox1.ContextMenuStrip = listbox_context_menu
 
+		GeckoWebBrowser1 = New GeckoWebBrowser()
+		GeckoWebBrowser1.Parent = Panel1
 		GeckoWebBrowser1.Dock = DockStyle.Fill
 		TabPage1.Controls.Add(GroupBox2) : TabPage1.Controls.Add(GroupBox3)
 		TabControl1.TabPages.Remove(TabPage5)
@@ -185,6 +195,7 @@ Public Class FormE_Grabber
 		Try
 			If Options.mode = Options.modes.start_page Then
 				method_parse.Invoke(inst, BindingFlags.InvokeMethod, Nothing, {html, GeckoWebBrowser1.Url.ToString}, Globalization.CultureInfo.CurrentCulture)
+				'parse(html, GeckoWebBrowser1.Url.ToString)
 			ElseIf Options.mode = Options.modes.input_file Then
 				method_parse.Invoke(inst, BindingFlags.InvokeMethod, Nothing, {html, input_urls(input_urls_current)}, Globalization.CultureInfo.CurrentCulture)
 			End If
@@ -454,11 +465,42 @@ Public Class FormE_Grabber
 		Me.Invoke(Sub() GeckoWebBrowser1.LoadHtml(""))
 
 		'preprocess
+		Options.err = ""
 		For i As Integer = 0 To Options.links.Count - 1
 			Dim start_from = 0
 			If CheckBox2.Checked Then start_from = 1
 			Dim url_done_for_this_product As New List(Of String)
 			Dim urls_parsed As New List(Of String)
+			If inst IsNot Nothing AndAlso method_preprocess IsNot Nothing Then
+
+				'''MODULE UNREAL GET_IMAGES
+				'Dim links = Options.links(i)
+				'Dim l = links.Value
+				'Dim l_distinct = l.Distinct(StringComparer.OrdinalIgnoreCase).ToList()
+				'Dim count_to_remove = l.Count - l_distinct.Count
+				''If count_to_remove Mod 2 <> 0 Then Options.err = "ERROR Preprocess: """ + links.Key + """ count_to_remove not divisible per 2" : Return Nothing
+				'If count_to_remove Mod 2 <> 0 Then Options.err = "ERROR Preprocess: """ + links.Key + """ count_to_remove not divisible per 2"
+				'Dim count_to_remove_from_each_side = CInt(count_to_remove / 2)
+				'For n As Integer = 1 To count_to_remove_from_each_side
+				'	l.RemoveAt(0)
+				'	l.RemoveAt(l.Count - 1)
+				'Next
+				''If Not l.Count = l_distinct.Count Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links count not equal to distinct links count" : Return Nothing
+				'If Not l.Count = l_distinct.Count Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links count not equal to distinct links count"
+				''If Not l.Count = l.Distinct().Count Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links not unique" : Return Nothing
+				'If Not l.Count = l.Distinct().Count Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links not unique"
+				'For n As Integer = 0 To l_distinct.Count - 1
+				'	'If Not l.Contains(l_distinct(n)) Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links does not contains all distinct" : Return Nothing
+				'	If Not l.Contains(l_distinct(n)) Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links does not contains all distinct"
+				'Next
+				''Return New KeyValuePair(Of String, List(Of String))(links.Key, l)
+				'''END MODULE
+
+				Options.links(i) = DirectCast(method_preprocess.Invoke(inst, BindingFlags.InvokeMethod, Nothing, {Options.links(i)}, Globalization.CultureInfo.CurrentCulture), KeyValuePair(Of String, List(Of String)))
+				If Options.err <> "" Then
+					Me.Invoke(Sub() MsgBox(Options.err)) : Options.err = "" : bg_worker_thread = Nothing : Exit Sub
+				End If
+			End If
 			For l As Integer = start_from To Options.links(i).Value.Count - 1
 				Dim url = Options.links(i).Value(l)
 				If inst IsNot Nothing AndAlso method_parse IsNot Nothing Then
@@ -653,7 +695,7 @@ Retry_Label:
 		ComboBox2.Items.Clear()
 		Button1.Enabled = False
 		Button6.Enabled = False : Button7.Enabled = False : Button13.Enabled = False
-		inst = Nothing : method_parse = Nothing
+		inst = Nothing : method_parse = Nothing : method_preprocess = Nothing
 
 		For Each m In modules(ComboBox1.SelectedItem.ToString)
 			ComboBox2.Items.Add(Path.GetFileNameWithoutExtension(m))
@@ -678,6 +720,7 @@ Retry_Label:
 		inst = Nothing
 		method_parse = Nothing
 		method_navigate_next = Nothing
+		method_preprocess = Nothing
 		input_urls = New List(Of String)
 		input_urls_current = -1
 		TextBox5.Text = "Not used"
@@ -711,7 +754,7 @@ Retry_Label:
 		cp.IncludeDebugInformation = True
 		If module_path.ToLower.EndsWith(".cs") Then
 			Dim cscp = New CSharpCodeProvider()
-			sourceCode = "using Catalog_2016; using Gecko; using System; using System.Windows.Forms; using System.Linq;" + vbCrLf
+			sourceCode = "using Catalog_2016; using Gecko; using System; using System.Collections.Generic; using System.Windows.Forms; using System.Linq;" + vbCrLf
 			sourceCode += "public class grb { " + vbCrLf + vbCrLf
 			line_offset = sourceCode.Split({vbCrLf}, StringSplitOptions.None).Count
 			sourceCode += File.ReadAllText(module_path) + vbCrLf + "}"
@@ -725,6 +768,7 @@ Retry_Label:
 			sourceCode += "Imports Catalog_2016" + vbCrLf
 			sourceCode += "Imports Gecko" + vbCrLf
 			sourceCode += "Imports System" + vbCrLf
+			sourceCode += "Imports System.Collections.Generic" + vbCrLf
 			sourceCode += "Imports System.Windows.Forms" + vbCrLf
 			sourceCode += "Imports Microsoft.VisualBasic" + vbCrLf
 			sourceCode += "Imports System.Linq" + vbCrLf + vbCrLf
@@ -748,6 +792,7 @@ Retry_Label:
 		Dim setup_method = grb.GetMethod("setup")
 		method_parse = grb.GetMethod("parse")
 		method_navigate_next = grb.GetMethod("get_next_url")
+		method_preprocess = grb.GetMethod("preprocess")
 		inst = compiled_assembly.CreateInstance("grb")
 
 		If setup_method Is Nothing OrElse inst Is Nothing OrElse method_parse Is Nothing Then Exit Sub
@@ -1284,7 +1329,7 @@ Retry_Label:
 		sourceCode += "Imports System.Linq" + vbCrLf + vbCrLf
 		sourceCode += "Public Class grb" + vbCrLf
 		line_offset = sourceCode.Split({vbCrLf}, StringSplitOptions.None).Count
-		sourceCode += TextBox8.Text.Replace("Options.", "Options_For_Debugger.") + vbCrLf
+		sourceCode += RichTextBox1.Text.Replace("Options.", "Options_For_Debugger.") + vbCrLf
 		sourceCode += "End Class"
 		cr = vbcp.CompileAssemblyFromSource(cp, sourceCode)
 		If cr.Errors.Count > 0 Then
@@ -1338,7 +1383,9 @@ Retry_Label:
 	'Debugger / Add Script Snippet
 	Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click, ListBox2.DoubleClick
 		If ListBox2.SelectedIndex < 0 Then Exit Sub
-		TextBox8.Paste(ListBox2.SelectedItem.ToString())
+		'TextBox8.Paste(ListBox2.SelectedItem.ToString())
+		RichTextBox1.SelectionLength = 1
+		RichTextBox1.SelectedText = ListBox2.SelectedItem.ToString()
 	End Sub
 	'Debugger / Load Script
 	Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click
@@ -1347,7 +1394,7 @@ Retry_Label:
 		f = ".\Grabbers\" + f
 		If Not File.Exists(f) Then Exit Sub
 
-		TextBox8.Text = File.ReadAllText(f)
+		RichTextBox1.Text = File.ReadAllText(f)
 	End Sub
 	'Debugger / Save Script
 	Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click
@@ -1364,7 +1411,7 @@ Retry_Label:
 			File.Delete(f)
 		End If
 
-		File.WriteAllText(f, TextBox8.Text)
+		File.WriteAllText(f, RichTextBox1.Text)
 	End Sub
 
 
@@ -1386,10 +1433,72 @@ Retry_Label:
 		GeckoWebBrowser1.TabIndex = 0
 		GeckoWebBrowser1.UseHttpActivityObserver = False
 		Me.Panel1.Controls.Add(Me.GeckoWebBrowser1)
+		Options.browser = GeckoWebBrowser1
 
 		GeckoWebBrowser1.Dock = DockStyle.Fill
 
 		AddHandler GeckoWebBrowser1.Navigating, Sub(o As Object, arg As GeckoNavigatingEventArgs) If arg.Uri IsNot Nothing Then TextBox1.Text = arg.Uri.ToString Else TextBox1.Text = ""
+	End Sub
+
+	'TEST PARSE
+	Dim ajax_wait_counter As Integer = 0
+	Public Sub parse(html As GeckoHtmlElement, cur_url As String)
+
+	End Sub
+
+	Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
+		If Dont_Parse Then Exit Sub
+		Code_Parser.Parse(RichTextBox1.Text, True)
+
+		Dont_Parse = True
+		Dim old_selection = {RichTextBox1.SelectionStart, RichTextBox1.SelectionLength}
+
+		For Each hi In Code_Parser.HighLights
+			RichTextBox1.SelectionStart = hi.location.SourceSpan.Start
+			RichTextBox1.SelectionLength = hi.location.SourceSpan.Length
+			RichTextBox1.SelectionColor = Color.Blue
+		Next
+
+		RichTextBox1.SelectionStart = old_selection(0)
+		RichTextBox1.SelectionLength = old_selection(1)
+		Dont_Parse = False
+	End Sub
+	Private Sub RichTextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles RichTextBox1.KeyPress
+		Dim txt = RichTextBox1.Text.Insert(RichTextBox1.SelectionStart, e.KeyChar)
+
+		Dim chain = ""
+		For i As Integer = RichTextBox1.SelectionStart To 0 Step -1
+			Dim chr = txt(i)
+			If Char.IsWhiteSpace(chr) Then Exit For
+			chain = chr + chain
+		Next
+		Dim chain_arr = chain.Split({"."c}, StringSplitOptions.None)
+
+		Dim chain_last_word = chain_arr(chain_arr.Length - 1).ToUpper()
+		chain_arr = chain_arr.Take(chain_arr.Length - 1).ToArray()
+
+		Dim result = Code_Parser.Search_Chain(chain_arr)
+		Dim search_list As New List(Of Class50_CodeParser.Classes_Dict)
+
+		If result IsNot Nothing Then search_list.Add(result)
+		If chain_arr.Length = 0 Then
+			search_list.Add(Code_Parser.user_variables_field)
+			search_list.Add(Code_Parser.user_variables_local)
+			search_list.AddRange(Class50_CodeParser.default_usings)
+		End If
+
+		ListBox3.Items.Clear()
+		If search_list.Count > 0 Then
+			For Each s_list In search_list
+				For Each s In s_list.dict
+					If chain_last_word = "" Then
+						ListBox3.Items.Add(s.Key)
+					Else
+						If s.Key.ToUpper().StartsWith(chain_last_word) Then ListBox3.Items.Add(s.Key)
+					End If
+				Next
+			Next
+		End If
 	End Sub
 End Class
 

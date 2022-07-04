@@ -1,6 +1,14 @@
-Test - category not listed if it's noot checked
+Test - category not listed if it's not checked
 SELECT main.id, main.name, group_concat(category.cat) FROM main JOIN category ON main.id = category.id_main WHERE category.cat IN ('Animation and Poses')  GROUP BY main.id, main.name ORDER BY data_num1
 
+- Database/Maintenance - fixes are not iplimented
+- Database/Maintenance - handle doubles (auto-rename or add field for additional screenshot prefix)
+- Field Association - option to show/hide field
+- Grabber - unreal images links grabbed with spaces and can not be downloaded
+- Grabber - directDownload daz screenshots detection of already downloaded, does not work properly
+- Grabber - directDownload after trying to resume unreal images download, it begin to randomly redownload already existing images, with different extension (.png instead of .jpg)
+- Grabber - directDownload status percent should show fully completed percent, not rounding to nearest int (use Math.Ceil() for calculation)
+- Grabber - on directDownload postprocess error - controls are not reenabled
 - Grabber - on module error, we have 2 similar msgboxes, which are not even modal (to test error, can use daz module mode 2 with link to https://daz3d.com start page)
 - Grabber - show what is skipped, when "Skipped (already parsed)" message added
 - Grabber - check last parsed entry (useful before continue canceled parsing session)
@@ -24,26 +32,26 @@ SELECT main.id, main.name, group_concat(category.cat) FROM main JOIN category ON
 - Grabber - Mode 3 (Screenshots), show 'missing image' in browser, in the place of image, if download of shown image was fail
 - Import - ini format need match mode too (i.e. match name && link, import description)
 - Import - ini format need ignore option (i.e. match name, import link, ignore description)
+- Import/Modules - add links grabbing to all "grab product info" modules, to both info and image files, to easily match them later
+- Import/Modules/Unreal - don't grab carousel screenshot with 'cloned' class
 - Import screenshot - need check & log mode, to see what will be imported and what will not and why
 - Import/Bug - closing import form while import is in process (in bacground thread) throw error
 - Main - category label show only category which is currently selected, if product have multiple categories, and one of them is not checked in the tree, it won't be shown (can check 'hexagon master')
 - Main - add option to convert all descriptions to rtf
+- Main - LiveFilter currently deny * or % wildcards in the middle of the string, because dv.RowFilter property does not allow this. Need workaround - split condition to: "name LIKE 'begining string%' AND name LIKE '%ending string'"
 - Scan/Bug - update filters after scan (if a field was just created, the filter combobox can only contains "{empty}". need to fill combobox with new results.)
 
+- Database/Daz - Products with special chars in names don't have links
+- Database/Daz - Products with special chars in names don't show screenshots
 - Database/Daz - "Triceratops" wrong descriptions (debug db)
 - Database/Daz - "Torso Bandages for M4" shown in Genesis/Clothing categorie 2 times (release db)
+- Database/Daz - SQL error after scanning files - column 'path' not found in the table (release db)
 - Database/Games - "Texas Hold 'Em Poker" is in double
 - Database/Games - no screenshot but there is on mobygames: http://www.mobygames.com/game/windows/teenage-mutant-ninja-turtles-, http://www.mobygames.com/game/windows/tron-20
 - DosboxConfigSingle - make gus path configurable and get it from current config
 - DosboxConfigSingle - get correct dosbox path, to list pixel shaders and sound fonts
 - Main - export custom - paths, compatibility and all related custom tables
-- Main - filter by number of screenshot
-- Main - save currently selected categories on exit and load them on startup
-- Main - need fields with list with multiple choices (checked listbox)
 - Main/Edit - alter multiple entry at once
-- Main/Edit - need a button to reset combobox for a field selected index to -1
-- Main/Edit/Bug - "R" reset combo button in wrong place
-- Main/Filter/Bug - when using live filter for other field then gameName, after clearing text box to "", list is not refreshed
 - Main/Launcher - ScuummVM option
 - Main/Launcher - get rid of hardcoded path "G:\eXoDOS Addon\!DOS" and "x:\UTILS\SHELL\NC4\nc" for ExoDos launcher. Make it configurable
 - Status - inherite main window filters when open compatibility table.
@@ -53,6 +61,7 @@ DONE:
 - Database/Games - fix ", the" for GAME screenshots
 - Database/Games - Psychotoxic - no screenshot, but they do exist
 - Database/Games - Nancy Drew: Secret of the Old Clock - ERROR
+- Database/Maintenance - option for save screen count to not ignore boxes (include/exclude boxes)
 - Field Association - option to add/remove index to db field
 - Field Association - save field options as | separated format to get rid of so much field entries in .ini (and save space)
 - Grabber - save settings
@@ -90,13 +99,20 @@ DONE:
 - Main - add DB maintenance option -> trim names, to fix product names starting with spaces
 - Main - show addons for daz/games entries if exists, show base daz product or game if addon is selected
 - Main - add optional argument to Form1.init_categories() method to restore selected items before clearing them. need restore by name, not by index. update all reference to this method to include this optional argument where applicable
+- Main - save currently selected categories on exit and load them on startup
+- Main - need fields with list with multiple choices (checked listbox)
+- Main - filter by number of screenshot (add screen count to a num field, and make it filtrable)
 - Main/Bug - Make last filter save when "apply" and not when "add"/"remove"
 - Main/Bug - Apply realtime filter when refreshing list using non-realtime filters or sorting
 - Main/Bug - saving long filters in .ini (i.e. Daz, Compatible Figures: Generation 1+2) - fails to load (too long?)
 - Main/Bug - screenshot severe lag while brawsing, sometimes they are not even shown on start
 - Main/Bug - added 'True Ink' to new category, and one of existing categories was removed (probably because it wasn't auto checked in category-edit tree) (wasn't checked because of & replaced by && in label, to show correctly)
+- Main/Edit - need a button to reset combobox for a field selected index to -1
+- Main/Edit/Bug - "R" reset combo button in wrong place - CAN NOT REPRODUCE
 - Main/Filter - add path to filters for games catalog
 - Main/Filter - filter presets
+- Main/Filter/Bug - live filter for other field then gameName, not working
+- Main/Filter/Bug - when using live filter for other field then gameName, after clearing text box to "", list is not refreshed
 - Main/Launcher - add ccd, mdx, img(?) and nrg to image extension
 - Main/Launcher - only show mdf, if there is no mds, and the same for ccd and cue
 - Main/Launcher - launch submenu items should only react to right click

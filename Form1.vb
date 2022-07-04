@@ -15,7 +15,7 @@ Public Class Form1
 		Dim year As String
 	End Structure
 
-	Dim Screenshot_Options As New Screenshot_Options_Info
+	Public Screenshot_Options As New Screenshot_Options_Info
 	Class Screenshot_Options_Info
 		Public FirstSpecial As Boolean = False
 		Public FirstOptional As Boolean = False
@@ -1571,7 +1571,7 @@ Public Class Form1
 		End If
 	End Sub
 	'Get Screenshot
-	Dim found_box As Boolean = False
+	Public found_box As Boolean = False
 	Public Function getScreen(name As String, cat As String, index As Integer, Optional year As String = "", Optional Dont_Check_If_Exist As Boolean = False, Optional justGiveMeTheName As Boolean = False, Optional alt_path As String = "") As String
 		'Dont_Check_If_Exist - will return screenshot path with filename without index, without extention
 		'justGiveMeTheName   - will return screenshot path with filename with index, without extention
@@ -1617,6 +1617,8 @@ Public Class Form1
 
 		'Get optional special first screen - box for games or main for daz
 		If index = 0 AndAlso Screenshot_Options.FirstSpecial Then
+			If Dont_Check_If_Exist Or justGiveMeTheName Then Return path + Screenshot_Options.FirstSuffix
+
 			For Each ext In screenExtensionsArray
 				Dim path_first = path + Screenshot_Options.FirstSuffix + "." + ext
 				If My.Computer.FileSystem.FileExists(path_first) Then
@@ -1624,11 +1626,10 @@ Public Class Form1
 					Return path_first
 				End If
 			Next
-			If Not found_box AndAlso Not Screenshot_Options.FirstOptional Then
-				If justGiveMeTheName Then Return path Else Return ""
-			End If
+			If Not found_box AndAlso Not Screenshot_Options.FirstOptional Then Return ""
 		End If
 		path += Screenshot_Options.Suffix
+		If Dont_Check_If_Exist Then Return path
 
 		'Next screens
 		index += Screenshot_Options.FirstIndex
@@ -1639,8 +1640,6 @@ Public Class Form1
 				If found_box Then index -= 1
 			End If
 		End If
-
-		If Dont_Check_If_Exist Then Return path
 
 		For Each ext In screenExtensionsArray
 			Dim _path As String = path
@@ -2276,15 +2275,19 @@ Public Class Form1
 		ListBox1.BeginUpdate()
 		If TextBox1.Text.Trim = "" Then
 			dv.RowFilter = ""
+			If Not liveSearchMenu.MenuItems(0).Checked Then refreshing = False : TreeView1_AfterCheck(TreeView1, New TreeViewEventArgs(Nothing)) : refreshing = True
 		Else
 			If liveSearchMenu.MenuItems(0).Checked Then
 				If ContainToolStripMenuItem.Checked Then
-					dv.RowFilter = "name LIKE '%" + TextBox1.Text.Replace("'", "''").Replace("[", "[[]").Replace("\*", "[*]") + "%'"
+					dv.RowFilter = "name LIKE '%" + TextBox1.Text.Replace("'", "''").Replace("[", "[%OPN%").Replace("]", "[]]").Replace("[%OPN%", "[[]").Replace("*", "[*]").Replace("%", "[%]") + "%'"
 				Else
-					dv.RowFilter = "name LIKE '" + TextBox1.Text.Replace("'", "''").Replace("[", "[[]").Replace("\*", "[*]") + "%'"
+					dv.RowFilter = "name LIKE '" + TextBox1.Text.Replace("'", "''").Replace("[", "[%OPN%").Replace("]", "[]]").Replace("[%OPN%", "[[]").Replace("*", "[*]").Replace("%", "[%]") + "%'"
 				End If
 			Else
+				dv.RowFilter = ""
+				refreshing = False
 				TreeView1_AfterCheck(TreeView1, New TreeViewEventArgs(Nothing))
+				refreshing = True
 			End If
 		End If
 		Label_zero.Text = "Total: " + ListBox1.Items.Count.ToString
