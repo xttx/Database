@@ -100,6 +100,7 @@ Public Class FormE_Grabber
 		AddHandler GeckoWebBrowser1.Navigating, Sub(o As Object, arg As GeckoNavigatingEventArgs) If arg.Uri IsNot Nothing Then TextBox1.Text = arg.Uri.ToString Else TextBox1.Text = ""
 		GeckoPreferences.User("browser.cache.disk.enable") = False
 		GeckoPreferences.User("browser.cache.memory.enable") = False
+		'GeckoWebBrowser1.UseHttpActivityObserver = True
 
 		'Workaround for memory leaks - not working
 		'Dim heapMinimizerTimer = New Timer()
@@ -192,6 +193,8 @@ Public Class FormE_Grabber
 
 		'TEST MODULES END
 
+
+
 		Try
 			If Options.mode = Options.modes.start_page Then
 				method_parse.Invoke(inst, BindingFlags.InvokeMethod, Nothing, {html, GeckoWebBrowser1.Url.ToString}, Globalization.CultureInfo.CurrentCulture)
@@ -224,6 +227,12 @@ Public Class FormE_Grabber
 
 		Got_To_Next_Url()
 	End Sub
+	'Private Sub Browser1_ObserveHttpModifyRequest(sender As Object, e As Gecko.GeckoObserveHttpModifyRequestEventArgs) Handles GeckoWebBrowser1.ObserveHttpModifyRequest
+	'	Dim str = e.Uri.ToString
+	'	If str.Substring(str.Length - 4).ToLower() = ".jpg" Then e.Cancel = True
+	'	If str.Substring(str.Length - 4).ToLower() = ".png" Then e.Cancel = True
+	'	If str.Substring(str.Length - 4).ToLower() = ".gif" Then e.Cancel = True
+	'End Sub
 
 	'Run module
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -494,6 +503,9 @@ Public Class FormE_Grabber
 				'	If Not l.Contains(l_distinct(n)) Then Options.err = "ERROR Preprocess: """ + links.Key + """ processed links does not contains all distinct"
 				'Next
 				''Return New KeyValuePair(Of String, List(Of String))(links.Key, l)
+
+
+
 				'''END MODULE
 
 				Options.links(i) = DirectCast(method_preprocess.Invoke(inst, BindingFlags.InvokeMethod, Nothing, {Options.links(i)}, Globalization.CultureInfo.CurrentCulture), KeyValuePair(Of String, List(Of String)))

@@ -8,7 +8,8 @@ Public Class Form2_fieldAssociations
 
     Private Sub Form2_fieldAssociations_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'Setup tooltips
-        Dim msg = "The name of the field." + vbCrLf + "Leave empty, to disable this field."
+        Dim msg = ""
+        msg = "The name of the field." + vbCrLf + "Leave empty, to disable this field."
         Custom_ToolTip.Setup(Label1, msg, Me) : Custom_ToolTip.Setup(TextBox1, msg, Me)         'Field Name
         msg = "Allow change value of this field in the main form (i.e. make field editable)." + vbCrLf + "Bool fields became checkboxes, String fields - textboxes." + vbCrLf + "String fields with list values become dropdowns, optionally with multiple choices."
         Custom_ToolTip.Setup(CheckBox1, msg, Me)                                                'Writable
@@ -28,6 +29,8 @@ Public Class Form2_fieldAssociations
         Custom_ToolTip.Setup(CheckBox6, msg, Me)                                                'Layout - NoBR
         msg = "Add context menu to this field label, to go directly to showing product."
         Custom_ToolTip.Setup(CheckBox7, msg, Me)                                                'Search for Name
+        msg = "Show this field in the main form."
+        Custom_ToolTip.Setup(CheckBox8, msg, Me)                                                'Show
         msg = "Move this field up in the list. The fields are shown on the main form in the same order as in list."
         Custom_ToolTip.Setup(Button2, msg, Me)                                                  'Move Field Up
         msg = "Move this field down in the list. The fields are shown on the main form in the same order as in list."
@@ -50,17 +53,13 @@ Public Class Form2_fieldAssociations
     End Sub
     Private Sub Form2_fieldAssociations_Load_FillList()
         Dim t As String = ""
-        Dim t1 As String = ""
         Dim t1a As Boolean = False
         Dim t2 As String = ""
-        Dim t3 As String = ""
         Dim t3a As Boolean = False
-        Dim t4 As String = ""
         Dim t4a As Boolean = False
-        Dim t5 As String = ""
         Dim t5a As Boolean = False
-        Dim t6 As String = ""
         Dim t6a As Boolean = False
+        Dim t7a As Boolean = False
         Dim cacheExist As Boolean = False
         Dim multiple As Boolean = False
         Dim ini = Form1.ini
@@ -82,19 +81,7 @@ Public Class Form2_fieldAssociations
                 If field_data.Count > 3 AndAlso field_data(3) = "1" Then t4a = True Else t4a = False
                 If field_data.Count > 4 AndAlso field_data(4) = "1" Then t5a = True Else t5a = False
                 If field_data.Count > 5 AndAlso field_data(5) = "1" Then t6a = True Else t6a = False
-
-                'Old Method
-                't = ini.IniReadValue("Interface", f)
-                't1 = ini.IniReadValue("Interface", f + "_write")
-                'If t1.ToUpper = "TRUE" Or t1 = "1" Then t1a = True Else t1a = False
-                't3 = ini.IniReadValue("Interface", f + "_sortable")
-                'If t3.ToUpper = "TRUE" Or t3 = "1" Then t3a = True Else t3a = False
-                't4 = ini.IniReadValue("Interface", f + "_filtrable")
-                'If t4.ToUpper = "TRUE" Or t4 = "1" Then t4a = True Else t4a = False
-                't6 = ini.IniReadValue("Interface", f + "_isLink")
-                'If t6.ToUpper = "TRUE" Or t6 = "1" Then t6a = True Else t6a = False
-                't5 = ini.IniReadValue("Interface", f + "_isList")
-                'If t5.ToUpper = "TRUE" Or t5 = "1" Then t5a = True Else t5a = False
+                If field_data.Count > 6 AndAlso field_data(6) = "1" Then t7a = True Else t7a = False
 
                 t2 = ini.IniReadValue("Interface", f + "_listValues")
                 multiple = t2.ToUpper.EndsWith(";{Multiple}".ToUpper)
@@ -102,7 +89,7 @@ Public Class Form2_fieldAssociations
 
                 Dim realFieldName = ("data" + f.Substring(f.IndexOf("_"))).ToLower
                 cacheExist = db.queryReader("SELECT name FROM sqlite_master WHERE type = 'table' AND name LIKE '_" + realFieldName + "_listCache'").HasRows
-                Dim l As New item With {.field = f, .fieldname = t, .writeable = t1a, .listValues = t2, .sortable = t3a, .filtrable = t4a, .isLink = t6a, .isList = t5a, .cacheExist = cacheExist, .listValuesMultiple = multiple, .DBfieldname = realFieldName}
+                Dim l As New item With {.field = f, .fieldname = t, .show = t7a, .writeable = t1a, .listValues = t2, .sortable = t3a, .filtrable = t4a, .isLink = t6a, .isList = t5a, .cacheExist = cacheExist, .listValuesMultiple = multiple, .DBfieldname = realFieldName}
                 l.noBR = noBR.Contains(f.ToUpper)
                 lst.Add(l)
             Next
@@ -157,6 +144,7 @@ Public Class Form2_fieldAssociations
             CheckBox5.Checked = False
             CheckBox6.Checked = False
             CheckBox7.Checked = False
+            CheckBox8.Checked = False
             Button5.Enabled = False : Button6.Enabled = False : Button7.Enabled = False
             Button4.Text = "Create List Cache" : Button4.Tag = "" : Button4.Enabled = False
         Else
@@ -175,6 +163,7 @@ Public Class Form2_fieldAssociations
             CheckBox5.Checked = l.listValuesMultiple
             CheckBox6.Checked = l.noBR
             CheckBox7.Checked = l.isLink
+            CheckBox8.Checked = l.show
             If Not CheckBox1.Checked And CheckBox4.Checked Then Button4.Enabled = True Else Button4.Enabled = False
 
             If l.field.ToUpper.Contains("STR") Then
@@ -273,6 +262,14 @@ Public Class Form2_fieldAssociations
         Else
             Dim l = DirectCast(ListBox1.SelectedItem, item)
             l.isLink = CheckBox7.Checked
+        End If
+    End Sub
+    Private Sub CheckBox8_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox8.CheckedChanged
+        If ListBox1.SelectedIndex < 0 Then
+            TextBox1.Text = ""
+        Else
+            Dim l = DirectCast(ListBox1.SelectedItem, item)
+            l.show = CheckBox8.Checked
         End If
     End Sub
 
@@ -377,16 +374,10 @@ Public Class Form2_fieldAssociations
                         If item.sortable Then w_str += "1|||" Else w_str += "0|||"
                         If item.filtrable Then w_str += "1|||" Else w_str += "0|||"
                         If item.isList Then w_str += "1|||" Else w_str += "0|||"
-                        If item.isLink Then w_str += "1|||" Else w_str += "0"
+                        If item.isLink Then w_str += "1|||" Else w_str += "0|||"
+                        If item.show Then w_str += "1" Else w_str += "0"
                         ini.IniWriteValue("Interface", search, w_str)
 
-                        'Old method
-                        'ini.IniWriteValue("Interface", search, item.fieldname)
-                        'ini.IniWriteValue("Interface", search + "_write", item.writeable.ToString)
-                        'ini.IniWriteValue("Interface", search + "_sortable", item.sortable.ToString)
-                        'ini.IniWriteValue("Interface", search + "_filtrable", item.filtrable.ToString)
-                        'ini.IniWriteValue("Interface", search + "_isList", item.isList.ToString)
-                        'ini.IniWriteValue("Interface", search + "_isLink", item.isLink.ToString)
                         If item.listValuesMultiple Then
                             ini.IniWriteValue("Interface", search + "_listValues", item.listValues + ";{Multiple}")
                         Else
@@ -591,12 +582,15 @@ Public Class Form2_fieldAssociations
             Button5.Enabled = Not indexed : Button6.Enabled = Not indexed : Button7.Enabled = indexed
         End Try
     End Sub
+
+
 End Class
 
 Public Class item
     Public field As String = ""
     Public fieldname As String = ""
     Public DBfieldname As String = ""
+    Public show As Boolean = False
     Public writeable As Boolean = False
     Public sortable As Boolean = False
     Public filtrable As Boolean = False

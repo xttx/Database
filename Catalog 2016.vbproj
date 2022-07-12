@@ -78,12 +78,15 @@
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.CodeAnalysis.Common.4.1.0\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.CodeAnalysis.CSharp.4.1.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.VisualBasic, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.CodeAnalysis.VisualBasic.4.1.0\lib\netstandard2.0\Microsoft.CodeAnalysis.VisualBasic.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NgenR2RTools">
       <HintPath>packages\Microsoft.DotNet.Framework.NativeImageCompiler.0.0.1-prerelease-00002\build\net462\NgenR2RTools.dll</HintPath>
@@ -200,6 +203,12 @@
       <DependentUpon>Form6_Scanner_Details2.vb</DependentUpon>
     </Compile>
     <Compile Include="Form6_Scanner_Details2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6_Scanner_generic.designer.vb">
+      <DependentUpon>Form6_Scanner_generic.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form6_Scanner_generic.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form8_pathsCheck.Designer.vb">
@@ -364,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form6_Scanner_Details2.resx">
       <DependentUpon>Form6_Scanner_Details2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6_Scanner_generic.resx">
+      <DependentUpon>Form6_Scanner_generic.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form8_pathsCheck.resx">
       <DependentUpon>Form8_pathsCheck.vb</DependentUpon>

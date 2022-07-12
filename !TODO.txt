@@ -3,7 +3,8 @@ SELECT main.id, main.name, group_concat(category.cat) FROM main JOIN category ON
 
 - Database/Maintenance - fixes are not iplimented
 - Database/Maintenance - handle doubles (auto-rename or add field for additional screenshot prefix)
-- Field Association - option to show/hide field
+- Grabber - in settings, color textboxes green when file exist, red - when file is required (input file) but not exist
+- Grabber - get images, check duplicated link
 - Grabber - unreal images links grabbed with spaces and can not be downloaded
 - Grabber - directDownload daz screenshots detection of already downloaded, does not work properly
 - Grabber - directDownload after trying to resume unreal images download, it begin to randomly redownload already existing images, with different extension (.png instead of .jpg)
@@ -48,6 +49,7 @@ SELECT main.id, main.name, group_concat(category.cat) FROM main JOIN category ON
 - Database/Daz - SQL error after scanning files - column 'path' not found in the table (release db)
 - Database/Games - "Texas Hold 'Em Poker" is in double
 - Database/Games - no screenshot but there is on mobygames: http://www.mobygames.com/game/windows/teenage-mutant-ninja-turtles-, http://www.mobygames.com/game/windows/tron-20
+- Database/Games - spider-man[a] 2001 has images of spider-man from 2002
 - DosboxConfigSingle - make gus path configurable and get it from current config
 - DosboxConfigSingle - get correct dosbox path, to list pixel shaders and sound fonts
 - Main - export custom - paths, compatibility and all related custom tables
@@ -64,6 +66,9 @@ DONE:
 - Database/Maintenance - option for save screen count to not ignore boxes (include/exclude boxes)
 - Field Association - option to add/remove index to db field
 - Field Association - save field options as | separated format to get rid of so much field entries in .ini (and save space)
+- Field Association - option to show/hide field without clearing its name
+- Field Association - if a text (description) fields is hidden and then re-enabled - description area still be empty when brawsing
+- Field Association - if all text (description) fields hidden - hide description area from main form
 - Grabber - save settings
 - Grabber - allow to view input and output files
 - Grabber - scroll down listbox when adding "Skipped (already parsed)" item
@@ -144,6 +149,7 @@ DONE:
 - Status - status table - Autoselect selected game.
 - Status/Bug - status table filter year error
 - Status/Bug - status table status filter not working well (maybe other filters too)
+- Status/Bug - show compatibility table - error (changed main listbox var type from listbox to virtual listbox)
 - Tooltip/Bug - tooltip not working on NumericUpDown control because it's missing mouse enter/leave events
 - Tooltip/Bug - tooltip in Field Association Form bug: don't hide when needed, wrong border position calculation (seems to be a NumericUpDown mouse enter/leave bug, because this control is actually 2 child controls)
 - Tooltip/Bug - correct tooltip position to not show offscreen (snap tooltip borders to screen edges if tooltip does not fit)

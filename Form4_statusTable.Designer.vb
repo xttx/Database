@@ -65,7 +65,7 @@ Partial Class Form4_statusTable
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
         Me.DataGridView1.RowHeadersVisible = False
-        Me.DataGridView1.Size = New System.Drawing.Size(697, 358)
+        Me.DataGridView1.Size = New System.Drawing.Size(719, 358)
         Me.DataGridView1.TabIndex = 2
         '
         'TextBox1
@@ -77,7 +77,7 @@ Partial Class Form4_statusTable
         Me.TextBox1.Multiline = True
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(165, 358)
+        Me.TextBox1.Size = New System.Drawing.Size(171, 358)
         Me.TextBox1.TabIndex = 3
         '
         'SplitContainer1
@@ -95,8 +95,8 @@ Partial Class Form4_statusTable
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.TextBox1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(878, 364)
-        Me.SplitContainer1.SplitterDistance = 703
+        Me.SplitContainer1.Size = New System.Drawing.Size(906, 364)
+        Me.SplitContainer1.SplitterDistance = 725
         Me.SplitContainer1.TabIndex = 4
         '
         'CheckBox1
@@ -104,7 +104,7 @@ Partial Class Form4_statusTable
         Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.CheckBox1.Location = New System.Drawing.Point(843, 8)
+        Me.CheckBox1.Location = New System.Drawing.Point(871, 8)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(50, 17)
         Me.CheckBox1.TabIndex = 5
@@ -115,7 +115,7 @@ Partial Class Form4_statusTable
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(905, 409)
+        Me.ClientSize = New System.Drawing.Size(933, 409)
         Me.Controls.Add(Me.CheckBox1)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.ComboBox1)

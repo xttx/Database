@@ -40,6 +40,8 @@ Public Class Form1
 	Dim lblcat As Label
 	Dim TreeView2 As New TreeView With {.Visible = False, .CheckBoxes = True, .Width = 200, .Height = 300}
 	Dim filter_txt_file As New List(Of String)
+	Dim Description_Textbox_Template As New RichTextBox
+	Dim rtf_arr() As RichTextBox = {}
 	Dim WithEvents ReverseSortOrder As ToolStripMenuItem = New ToolStripMenuItem With {.Text = "Reverse Sort Order"}
 
 	Dim listbox_searchAsYouTypeStr As String = ""
@@ -198,6 +200,12 @@ Public Class Form1
 		'Dim aaa = IO.File.ReadAllText("Z:\G\eXoDOS 2.0\Games\!dos\airball\dosbox.conf")
 		'aaa = r.Replace(aaa, "$1$2$3REPLACEMENT", 1)
 		'END TEST REGEXP
+
+		Description_Textbox_Template.Size = RichTextBox1.Size
+		Description_Textbox_Template.Location = RichTextBox1.Location
+		Description_Textbox_Template.Anchor = RichTextBox1.Anchor
+		Description_Textbox_Template.Dock = RichTextBox1.Dock
+		Description_Textbox_Template.BorderStyle = RichTextBox1.BorderStyle
 
 		Form_Loader = loader
 		Dim tmp = Me.Handle 'This is needed to create window handle (descriptor) before the window is shown
@@ -527,23 +535,18 @@ Public Class Form1
 				Dim n = ""
 				Dim s = ""
 				Dim f = ""
+				Dim e = ""
 				If field_data.Count > 0 Then name = field_data(0).Trim 'Name
 				If field_data.Count > 1 Then w = field_data(1) 'Writeable
 				If field_data.Count > 2 Then s = field_data(2) 'Sortable
 				If field_data.Count > 3 Then f = field_data(3) 'Filtrable
 				If field_data.Count > 4 Then l = field_data(4) 'IsList
 				If field_data.Count > 5 Then n = field_data(5) 'IsLink
+				If field_data.Count > 6 Then e = field_data(6) 'Show
 
-				'Old Method
-				'Dim name = ini.IniReadValue("Interface", fieldType + i.ToString)
-				'Dim w = ini.IniReadValue("Interface", fieldType + i.ToString + "_write")
-				'Dim l = ini.IniReadValue("Interface", fieldType + i.ToString + "_isList")
-				'Dim n = ini.IniReadValue("Interface", fieldType + i.ToString + "_isLink")
-				'Dim s = ini.IniReadValue("Interface", fieldType + i.ToString + "_sortable")
-				'Dim f = ini.IniReadValue("Interface", fieldType + i.ToString + "_filtrable")
 				Dim lv = ini.IniReadValue("Interface", fieldType + i.ToString + "_listValues")
 				Dim fi As New Field_Info()
-				fi.enabled = name <> ""
+				'fi.enabled = name <> ""
 				fi.name = name
 				If fieldType.ToLower().EndsWith("_str") Then fi.field_type = Field_Info.field_types.str
 				If fieldType.ToLower().EndsWith("_num") Then fi.field_type = Field_Info.field_types.num
@@ -558,7 +561,9 @@ Public Class Form1
 				fi.filtrable = f.ToUpper = "TRUE" Or f = "1"
 				fi.is_nameLink = n.ToUpper = "TRUE" Or n = "1"
 				fi.is_list = l.ToUpper = "TRUE" Or l = "1"
+				fi.enabled = e.ToUpper = "TRUE" Or e = "1"
 				fi.list_values = lv.Split({";"c}, StringSplitOptions.RemoveEmptyEntries)
+				If fi.enabled AndAlso String.IsNullOrWhiteSpace(fi.name) Then fi.name = fi.DBname
 				Fields.Add(fi)
 
 				f_counter += 1
@@ -897,9 +902,37 @@ Public Class Form1
 
 		'Set textarea tabs names
 		Dim text_fields = Fields_ordered.Where(Function(f) f.field_type = Field_Info.field_types.txt AndAlso f.enabled)
-		If text_fields.Count > 0 Then TabPage1.Text = text_fields(0).name Else TabControl1.TabPages.Remove(TabPage1)
-		If text_fields.Count > 1 Then TabPage1.Text = text_fields(1).name Else TabControl1.TabPages.Remove(TabPage2)
-		If text_fields.Count > 2 Then TabPage1.Text = text_fields(2).name Else TabControl1.TabPages.Remove(TabPage3)
+		ReDim rtf_arr(text_fields.Count - 1)
+		For n As Integer = TabControl1.TabPages.Count - 1 To 0 Step -1
+			TabControl1.TabPages.Remove(TabControl1.TabPages(n))
+		Next
+		If text_fields.Count() > 0 Then
+			If SplitContainer3.IsSplitterFixed = True Then SplitContainer3.SplitterDistance = 317
+			SplitContainer3.IsSplitterFixed = False
+			SplitContainer3.FixedPanel = FixedPanel.None
+			TabControl1.Enabled = True : TabControl1.Visible = True
+
+			For n As Integer = 0 To text_fields.Count - 1
+				Dim tp As New TabPage(text_fields(n).name)
+				TabControl1.TabPages.Add(tp)
+
+				Dim rt = New RichTextBox()
+				rt.Size = Description_Textbox_Template.Size
+				rt.Location = Description_Textbox_Template.Location
+				rt.Anchor = Description_Textbox_Template.Anchor
+				rt.Dock = Description_Textbox_Template.Dock
+				rt.BorderStyle = Description_Textbox_Template.BorderStyle
+				tp.Controls.Add(rt)
+
+				rtf_arr(n) = rt
+			Next
+		Else
+			SplitContainer3.IsSplitterFixed = True
+			SplitContainer3.FixedPanel = FixedPanel.Panel2
+			SplitContainer3.SplitterDistance = SplitContainer3.Width - 38
+			TabControl1.Enabled = False : TabControl1.Visible = False
+		End If
+
 	End Sub
 	Public Sub field_click_handler(o As Object, e As MouseEventArgs)
 		Dim txt = DirectCast(o, Label).Text
@@ -1104,6 +1137,7 @@ Public Class Form1
 		customListImages = New List(Of Image)
 		customListImagesGray = New List(Of Image)
 
+		Dim vertical_layout = rtf_arr Is Nothing OrElse rtf_arr.Length = 0
 		Dim dt = db.queryDataset("SELECT id, name FROM custom_lists ORDER by id")
 		For i As Integer = 1 To dt.Rows.Count
 			'Add button
@@ -1129,10 +1163,15 @@ Public Class Form1
 			AddHandler btn.Click, AddressOf press_custom_list_button
 
 			SplitContainer3.Panel2.Controls.Add(btn)
-			btn.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-			btn.Top = SplitContainer3.Panel2.Height - 30
-			'btn.Left = SplitContainer3.Panel2.Width - 320 + ((i - 1) * 20)
-			btn.Left = ((i - 1) * 28) + TabControl1.Left + TabPage1.Left
+			If vertical_layout Then
+				btn.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+				btn.Top = ((i - 1) * 28) + 2
+				btn.Left = SplitContainer3.Panel2.Width - 30
+			Else
+				btn.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+				btn.Top = SplitContainer3.Panel2.Height - 30
+				btn.Left = ((i - 1) * 28) + TabControl1.Left + TabPage1.Left
+			End If
 
 			'Add to view list menu
 			item = New ToolStripMenuItem() With {.Text = dt.Rows(i - 1).Item("name"), .Tag = dt.Rows(i - 1).Item("id")}
@@ -1443,6 +1482,7 @@ Public Class Form1
 		If labelNameEdit IsNot Nothing Then labelNameEdit.Text = r.Item("name")
 
 		Dim nFType As Integer = 0
+		Dim texts As New List(Of String)
 		For Each field In Fields_ordered
 			If field.assoc_txt IsNot Nothing Then
 				field.assoc_txt.Text = r.Item(field.DBname).ToString
@@ -1455,17 +1495,18 @@ Public Class Form1
 			ElseIf field.assoc_chk IsNot Nothing Then
 				Dim tmp As String = r.Item(field.DBname).ToString
 				If tmp = "" Or tmp = "0" Or tmp.ToUpper = "FALSE" Then field.assoc_chk.Checked = False Else field.assoc_chk.Checked = True
+			ElseIf field.field_type = Field_Info.field_types.txt AndAlso field.enabled Then
+				texts.Add(r.Item(field.DBname).ToString())
 			End If
 		Next
 		refreshing = False
 
 		'Descriptions
 		bg_descr_loader.CancelAsync()
-		Dim d1 = r.Item("data_txt1").ToString 'using r.Item() in lambda directly - bug, thread is only started 1 time of 5
-		Dim d2 = r.Item("data_txt2").ToString 'using r.Item() in lambda directly - bug, thread is only started 1 time of 5
-		Dim d3 = r.Item("data_txt3").ToString 'using r.Item() in lambda directly - bug, thread is only started 1 time of 5
-		bg_descr_loader = New BackgroundWorker() With {.WorkerSupportsCancellation = True}
-		bg_descr_loader.RunWorkerAsync({d1, d2, d3})
+		If texts.Count > 0 Then
+			bg_descr_loader = New BackgroundWorker() With {.WorkerSupportsCancellation = True}
+			bg_descr_loader.RunWorkerAsync(texts.ToArray())
+		End If
 
 		'Screenshots - async load
 		'If bg_scr_loader_thread IsNot Nothing Then bg_scr_loader_thread.Abort() : bg_scr_loader_thread = Nothing
@@ -1671,9 +1712,9 @@ Public Class Form1
 			Dim this_worker = DirectCast(o, BackgroundWorker)
 			If this_worker.CancellationPending Then bg_descr_loader_threads.Remove(Threading.Thread.CurrentThread) : e.Cancel = True : Exit Sub
 
-			Dim rtf_arr() As RichTextBox = {RichTextBox1, RichTextBox2, RichTextBox3}
+			'Dim rtf_arr() As RichTextBox = {RichTextBox1, RichTextBox2, RichTextBox3}
 			Dim str_arr() = DirectCast(e.Argument, String())
-			For i As Integer = 0 To 2
+			For i As Integer = 0 To rtf_arr.Length - 1
 				Dim _i = i 'because compilator don't want we use iteration variable :(
 
 				If str_arr(i).Trim = "" Then
@@ -3074,6 +3115,9 @@ Public Class Form1
 		ElseIf type = catalog_type.unity Then
 			Dim f As New Form6_Scanner_unity
 			f.ShowDialog(Me)
+		ElseIf type = catalog_type.generic Then
+			Dim f As New Form6_Scanner_generic
+			f.ShowDialog(Me)
 		End If
 	End Sub
 	'File / Export List
@@ -3397,7 +3441,9 @@ Public Class Form1
 		Form2_fieldAssociations.need_refresh_main_form = False
 		Dim f As New Form2_fieldAssociations
 		f.ShowDialog(Me)
-		If Form2_fieldAssociations.need_refresh_main_form Then init_fieldset() : ListBox1_SelectedIndexChanged(ListBox1, New EventArgs)
+		If Form2_fieldAssociations.need_refresh_main_form Then
+			init_fieldset() : init_customLists() : ListBox1_SelectedIndexChanged(ListBox1, New EventArgs)
+		End If
 	End Sub
 	'Database / Category Editor
 	Private Sub CategoryEditorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CategoryEditorToolStripMenuItem.Click

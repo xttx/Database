@@ -12,7 +12,7 @@
     Dim update_comments As New List(Of String)
     Dim status_where As New List(Of String)
 
-    Dim WithEvents l As ListBox
+    Dim WithEvents l As VirtualListBox.VListBox
 
     Public Sub New(MainForm As Form1)
 
